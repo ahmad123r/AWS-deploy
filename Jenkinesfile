@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DOCKER_IMAGE       = "ahmad201218/finalversion:latest"
-        EC2_HOST           = "ec2-13-60-48-34.eu-north-1.compute.amazonaws.com"
+        EC2_HOST           = "13.60.48.34"
         SSH_CREDENTIALS_ID = "jenkins-ec2-ssh" // This is the ID you set in Jenkins for your SSH credentials
         REMOTE_USER        = "ubuntu"
         CONTAINER_NAME     = "my_app"
