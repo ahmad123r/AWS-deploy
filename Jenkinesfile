@@ -24,25 +24,16 @@ pipeline {
             }
         }
 
-        stage('Deploy on EC2') {
+    stage('Deploy on EC2') {
             steps {
                 echo "Entering SSH stage..."
-                sshagent(credentials: [env.SSH_CREDENTIALS_ID]) {
-                    sh """
-                        ssh -vvv -o StrictHostKeyChecking=no ubuntu@13.60.48.34 '
-                            echo "Stopping old container..."
-                            docker stop ${CONTAINER_NAME} || true
-                            docker rm ${CONTAINER_NAME} || true
-                            echo "Pulling new image..."
-                            docker pull ${DOCKER_IMAGE}
-                            echo "Starting new container..."
-                            docker run -d --name ${CONTAINER_NAME} -p ${HOST_PORT}:${CONTAINER_PORT} ${DOCKER_IMAGE}
-                            docker logs ${CONTAINER_NAME}
-                        '
-                    """
-                }
+                // Use the 'bat' step for Windows command line.
+                bat """
+                ssh -i "C:/ProgramData/Jenkins/.ssh/dodoRSA.pem" -o StrictHostKeyChecking=no %REMOTE_USER%@%EC2_HOST% "echo Connected to EC2 && docker pull %DOCKER_IMAGE% && docker stop %CONTAINER_NAME% || echo Skipped && docker rm %CONTAINER_NAME% || echo Skipped && docker run -d --name %CONTAINER_NAME% -p %HOST_PORT%:%CONTAINER_PORT% %DOCKER_IMAGE%"
+                """
             }
         }
+}
     }
 
     post {
