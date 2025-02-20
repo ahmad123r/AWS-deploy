@@ -16,7 +16,7 @@ pipeline {
                 echo "Entering SSH stage..."
                 // Use the 'bat' step for Windows command line.
                 bat """
-                ssh -i "C:/Users/Ahmad/DownloadsdodoRSA.ppk" -o StrictHostKeyChecking=no %REMOTE_USER%@%EC2_HOST% "echo Connected to EC2 && docker pull %DOCKER_IMAGE% && docker stop %CONTAINER_NAME% || echo Skipped && docker rm %CONTAINER_NAME% || echo Skipped && docker run -d --name %CONTAINER_NAME% -p %HOST_PORT%:%CONTAINER_PORT% %DOCKER_IMAGE%"
+                ssh -i "C:/Users/Ahmad/Downloads/dodoRSA.ppk" -o StrictHostKeyChecking=no %REMOTE_USER%@%EC2_HOST% "echo Connected to EC2 && docker pull %DOCKER_IMAGE% && docker stop %CONTAINER_NAME% || echo Skipped && docker rm %CONTAINER_NAME% || echo Skipped && docker run -d --name %CONTAINER_NAME% -p %HOST_PORT%:%CONTAINER_PORT% %DOCKER_IMAGE%"
                 """
             }
         }
