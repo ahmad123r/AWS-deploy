@@ -31,6 +31,7 @@ public class StudentService {
             throw new IllegalStateException("email exist");
         }
         studentRepository.save(student);
+        System.out.println("saved student");
     }
 
     public void deleteStudent(Long studentId) {

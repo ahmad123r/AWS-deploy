@@ -14,22 +14,19 @@ import static java.time.Month.*;
 public class StudentConfig {
 
     @Bean
-    CommandLineRunner commandLineRunner(StudentRepository repository){
+    CommandLineRunner commandLineRunner(StudentRepository repository) {
         return args -> {
             Student mariam = new Student(
-                    "Mariam",
-                    "mariam.jamal@gmail.com",
-                    LocalDate.of(2000, JANUARY, 5)
-            );
+                    "Ahmad",
+                    "Ahmad.Raddad@gmail.com",
+                    LocalDate.of(2000, DECEMBER, 18));
             Student alex = new Student(
-                    "Alex",
-                    "alex@gmail.com",
-                    LocalDate.of(2004, JANUARY, 5)
-            );
+                    "George Wassouf",
+                    "George Wassouf@gmail.com",
+                    LocalDate.of(2004, JANUARY, 5));
 
             repository.saveAll(
-                    List.of(mariam, alex)
-            );
+                    List.of(mariam, alex));
         };
     }
 }
