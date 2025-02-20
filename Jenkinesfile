@@ -28,18 +28,19 @@ pipeline {
             steps {
                 echo "Entering SSH stage..."
                 
-                sshagent (credentials: [env.SSH_CREDENTIALS_ID]) {
-                    echo "SSH authentication successful. Attempting to deploy on EC2..."
-                    
-                    bat """
-                    ssh -v -o StrictHostKeyChecking=no ${REMOTE_USER}@${EC2_HOST} ^
-                    'echo "Connected to EC2" && ^
-                    docker pull ${DOCKER_IMAGE} && ^
-                    docker stop ${CONTAINER_NAME} || true && ^
-                    docker rm ${CONTAINER_NAME} || true && ^
-                    docker run -d --name ${CONTAINER_NAME} -p ${HOST_PORT}:${CONTAINER_PORT} ${DOCKER_IMAGE}'
-                    """
-                }
+                sshagent(credentials: [env.SSH_CREDENTIALS_ID]) {
+  sh """
+    scp -v -o StrictHostKeyChecking=no docker-compose.yml ${EC2_USER}@${EC2_HOST}:/home/ec2-user
+    ssh -vvv -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_HOST} '
+      echo "Starting deployment..."
+      docker stop myapp || true
+      docker rm myapp || true
+      docker pull ${DOCKER_IMAGE}
+      docker run -d --name myapp -p 8080:8080 ${DOCKER_IMAGE}
+      docker logs myapp  # Capture initial container logs
+    '
+  """
+}
 
                 echo "SSH stage completed."
             }
