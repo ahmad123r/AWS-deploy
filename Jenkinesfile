@@ -2,29 +2,16 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE       = "ahmad201218/finalversion:latest"
-        EC2_HOST           = "13.60.48.34"
-        SSH_CREDENTIALS_ID = "jenkins-ec2-ssh"  // Verify this ID exists in Jenkins
-        REMOTE_USER        = "ubuntu"           // Use "ec2-user" for Amazon Linux
-        CONTAINER_NAME     = "my_app"
-        HOST_PORT          = "80"
-        CONTAINER_PORT     = "8080"
+        DOCKER_IMAGE   = "ahmad201218/finalversion:latest"
+        EC2_HOST       = "13.60.48.34"
+        REMOTE_USER    = "ubuntu"
+        CONTAINER_NAME = "my_app"
+        HOST_PORT      = "80"
+        CONTAINER_PORT = "8080"
     }
 
     stages {
-        stage('Build Docker Image') {
-            steps {
-                bat "docker build -t ${DOCKER_IMAGE} ."
-            }
-        }
-
-        stage('Push Docker Image') {
-            steps {
-                bat "docker push ${DOCKER_IMAGE}"
-            }
-        }
-
-    stage('Deploy on EC2') {
+        stage('Deploy on EC2') {
             steps {
                 echo "Entering SSH stage..."
                 // Use the 'bat' step for Windows command line.
@@ -33,15 +20,14 @@ pipeline {
                 """
             }
         }
-}
     }
 
     post {
         success {
-            echo 'Deployment successful!'
+            echo "Deployment successful!"
         }
         failure {
-            echo 'Deployment failed!'
+            echo "Deployment failed!"
         }
     }
 }
