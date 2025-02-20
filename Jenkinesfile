@@ -26,15 +26,22 @@ pipeline {
 
         stage('Deploy on EC2') {
             steps {
+                echo "Entering SSH stage..."
+                
                 sshagent (credentials: [env.SSH_CREDENTIALS_ID]) {
+                    echo "SSH authentication successful. Attempting to deploy on EC2..."
+                    
                     bat """
-                    ssh -o StrictHostKeyChecking=no ${REMOTE_USER}@${EC2_HOST} \\
-                    'docker pull ${DOCKER_IMAGE} && \\
-                    docker stop ${CONTAINER_NAME} || true && \\
-                    docker rm ${CONTAINER_NAME} || true && \\
+                    ssh -v -o StrictHostKeyChecking=no ${REMOTE_USER}@${EC2_HOST} ^
+                    'echo "Connected to EC2" && ^
+                    docker pull ${DOCKER_IMAGE} && ^
+                    docker stop ${CONTAINER_NAME} || true && ^
+                    docker rm ${CONTAINER_NAME} || true && ^
                     docker run -d --name ${CONTAINER_NAME} -p ${HOST_PORT}:${CONTAINER_PORT} ${DOCKER_IMAGE}'
                     """
                 }
+
+                echo "SSH stage completed."
             }
         }
     }
