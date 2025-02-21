@@ -6,7 +6,7 @@ pipeline {
         EC2_HOST       = "13.60.48.34"
         REMOTE_USER    = "ubuntu"
         CONTAINER_NAME = "my_app_${BUILD_NUMBER}"
-        HOST_PORT      = "80"
+        HOST_PORT      = "8080"
         CONTAINER_PORT = "8080"
 
         REGISTRY = "ahmad201218"  // Docker Hub username
