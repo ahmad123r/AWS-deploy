@@ -19,7 +19,7 @@ pipeline {
             steps {
                 // Make sure Jenkins pulls the latest code from your source repository
                 git 'https://github.com/ahmad123r/AWS-deploy.git'
-            }
+            }}
         stage('Build Docker Image') {
             steps {
                 sh "docker build -t ${DOCKER_IMAGE} ."
