@@ -16,13 +16,15 @@ pipeline {
                 echo "Entering SSH stage..."
                 withCredentials([sshUserPrivateKey(credentialsId: 'EC2_PRIVATE_KEY', keyFileVariable: 'SSH_KEY', usernameVariable: 'SSH_USER')]) {
                     sh """
-                    ssh -i "$SSH_KEY" -o StrictHostKeyChecking=no $SSH_USER@13.60.48.34 <<'EOF'
-                        echo "Connected to EC2"
-                        # Additional deployment commands here
-                    EOF
+                    echo 'echo "Connected to EC2"' > deploy_script.sh
+                    echo 'docker ps' >> deploy_script.sh  # Add deployment commands here
+                    chmod +x deploy_script.sh
+                    scp -i "$SSH_KEY" -o StrictHostKeyChecking=no deploy_script.sh $SSH_USER@13.60.48.34:/home/ubuntu/
+                    ssh -i "$SSH_KEY" -o StrictHostKeyChecking=no $SSH_USER@13.60.48.34 'bash /home/ubuntu/deploy_script.sh'
                     """
                 }
-      } }  
+            }
+        }  
 }
 
     post {
