@@ -16,7 +16,7 @@ pipeline {
                 echo "Entering SSH stage..."
                 withCredentials([sshUserPrivateKey(credentialsId: 'EC2_PRIVATE_KEY', keyFileVariable: 'SSH_KEY', usernameVariable: 'SSH_USER')]) {
                     sh """
-                    ssh -i "$SSH_KEY" -o StrictHostKeyChecking=no $SSH_USER@13.60.48.34 << EOF
+                    ssh -i "$SSH_KEY" -o StrictHostKeyChecking=no $SSH_USER@13.60.48.34 
                         echo "Connected to EC2"
                         # Additional deployment commands here
                     EOF
