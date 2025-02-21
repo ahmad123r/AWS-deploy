@@ -20,13 +20,17 @@ public class StudentConfig {
                     "Ahmad",
                     "Ahmad.Raddad@gmail.com",
                     LocalDate.of(2000, DECEMBER, 18));
+            Student ahmad = new Student(
+                    "raddad",
+                    "raddad@gmail.com",
+                    LocalDate.of(2000, DECEMBER, 18));
             Student alex = new Student(
                     "George Wassouf",
                     "George Wassouf@gmail.com",
                     LocalDate.of(2004, JANUARY, 5));
 
             repository.saveAll(
-                    List.of(mariam, alex));
+                    List.of(mariam, alex, ahmad));
         };
     }
 }
