@@ -39,6 +39,7 @@ pipeline {
                     docker rm $IMAGE_NAME || true
                     docker pull $REGISTRY/$IMAGE_NAME:$IMAGE_TAG
                     docker run -d --name $IMAGE_NAME -p 80:80 $REGISTRY/$IMAGE_NAME:$IMAGE_TAG
+                    echo "Deployed"
                     """
                 }
             }
