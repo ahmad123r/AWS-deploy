@@ -5,7 +5,7 @@ pipeline {
         DOCKER_IMAGE   = "ahmad201218/finalversion:latest"
         EC2_HOST       = "13.60.48.34"
         REMOTE_USER    = "ubuntu"
-        CONTAINER_NAME = "my_app"
+        CONTAINER_NAME = "my_app${BUILD_NUMBER}"
         HOST_PORT      = "80"
         CONTAINER_PORT = "8080"
 
@@ -41,6 +41,8 @@ pipeline {
                     chmod +x deploy_script.sh
                     scp -i "$SSH_KEY" -o StrictHostKeyChecking=no deploy_script.sh $SSH_USER@13.60.48.34:/home/ubuntu/
                     ssh -i "$SSH_KEY" -o StrictHostKeyChecking=no $SSH_USER@13.60.48.34 'bash /home/ubuntu/deploy_script.sh'
+                    docker pull ahmad201218/finalversion:latest
+                    docker run -d -p 8080:8080 --name $CONTAINER_NAME ahmad201218/finalversion:latest
                     """
                 }
             }
