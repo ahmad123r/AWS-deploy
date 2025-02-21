@@ -8,9 +8,23 @@ pipeline {
         CONTAINER_NAME = "my_app"
         HOST_PORT      = "80"
         CONTAINER_PORT = "8080"
+
+
+        REGISTRY = "ahmad201218"   // Change this to your Docker Hub username
+        IMAGE_NAME = "finalversion"        // Change this to your image name
+        IMAGE_TAG = "latest"
     }
 
     stages {
+        stage('Build & Push Docker Image') {
+            steps {
+                echo "Building Docker image..."
+                sh """
+                docker build -t $REGISTRY/$IMAGE_NAME:$IMAGE_TAG .
+                docker login -u $REGISTRY -p ${env.DOCKER_PASSWORD}  // Ensure you have stored credentials in Jenkins
+                docker push $REGISTRY/$IMAGE_NAME:$IMAGE_TAG
+                """
+            }
      stage('Deploy on EC2') {
             steps {
                 echo "Entering SSH stage..."
@@ -21,6 +35,10 @@ pipeline {
                     chmod +x deploy_script.sh
                     scp -i "$SSH_KEY" -o StrictHostKeyChecking=no deploy_script.sh $SSH_USER@13.60.48.34:/home/ubuntu/
                     ssh -i "$SSH_KEY" -o StrictHostKeyChecking=no $SSH_USER@13.60.48.34 'bash /home/ubuntu/deploy_script.sh'
+                     docker stop $IMAGE_NAME || true
+                    docker rm $IMAGE_NAME || true
+                    docker pull $REGISTRY/$IMAGE_NAME:$IMAGE_TAG
+                    docker run -d --name $IMAGE_NAME -p 80:80 $REGISTRY/$IMAGE_NAME:$IMAGE_TAG
                     """
                 }
             }
