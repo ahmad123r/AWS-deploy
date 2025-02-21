@@ -16,7 +16,7 @@ pipeline {
                 echo "Entering SSH stage..."
                 // Use the 'bat' step for Windows command line.
                 sh """
-                ssh -tt "/home/ahmad/Downloads/dodoRSA.pem" -o StrictHostKeyChecking=no $REMOTE_USER@$EC2_HOST << EOF
+                ssh -i /home/ahmad/Downloads/dodoRSA.pem ubuntu@13.60.48.34
                 echo Connected to EC2
                 """
             }
