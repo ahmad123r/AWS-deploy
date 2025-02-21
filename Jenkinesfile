@@ -30,7 +30,7 @@ pipeline {
     docker push ahmad201218/finalversion:latest
     """
             }
-        }
+        }}
      stage('Deploy on EC2') {
             steps {
                 echo "Entering SSH stage..."
