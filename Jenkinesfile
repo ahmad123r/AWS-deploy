@@ -41,10 +41,6 @@ pipeline {
                     chmod +x deploy_script.sh
                     scp -i "$SSH_KEY" -o StrictHostKeyChecking=no deploy_script.sh $SSH_USER@13.60.48.34:/home/ubuntu/
                     ssh -i "$SSH_KEY" -o StrictHostKeyChecking=no $SSH_USER@13.60.48.34 'bash /home/ubuntu/deploy_script.sh'
-                    docker pull ${DOCKER_IMAGE} && ^
-                    docker stop ${CONTAINER_NAME} || true && ^
-                    docker rm ${CONTAINER_NAME} || true && ^
-                    docker run -d --name ${CONTAINER_NAME} -p ${HOST_PORT}:${CONTAINER_PORT} ${DOCKER_IMAGE}'
                     """
                 }
             }
