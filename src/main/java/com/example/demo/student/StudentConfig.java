@@ -28,9 +28,13 @@ public class StudentConfig {
                     "George Wassouf",
                     "George Wassouf@gmail.com",
                     LocalDate.of(2004, JANUARY, 5));
+            Student mohmmad = new Student(
+                    "mohmmad",
+                    "mohmmad.Raddad@gmail.com",
+                    LocalDate.of(2000, DECEMBER, 18));
 
             repository.saveAll(
-                    List.of(mariam, alex, ahmad));
+                    List.of(mariam, alex, ahmad, mohmmad));
         };
     }
 }
