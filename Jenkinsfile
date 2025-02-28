@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DOCKER_IMAGE   = "ahmad201218/finalversion:latest"
-        EC2_HOST       = "13.60.48.34"
+        EC2_HOST       = "13.49.73.162"
         REMOTE_USER    = "ubuntu"
         CONTAINER_NAME = "my_app"
         HOST_PORT      = "8080"
