@@ -8,7 +8,7 @@ WORKDIR /app
 COPY . .
 
 # Run Maven build
-RUN mvn clean package -DskipTests
+RUN mvn  package -DskipTests
 
 # Use OpenJDK as the final runtime image
 FROM openjdk:17-jdk-alpine
